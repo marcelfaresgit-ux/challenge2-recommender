@@ -1,0 +1,20 @@
+seed: 42
+data:
+  users: 1200
+  items: 600
+  interactions: 24000
+  min_rating: 1
+  max_rating: 5
+split:
+  test_size: 0.2
+  validation_size: 0.15
+model:
+  embedding_dim: 32
+  hidden_units: 64
+  dropout: 0.15
+  epochs: 8
+  batch_size: 512
+  learning_rate: 0.001
+  patience: 3
+recommendation:
+  top_k: 10
