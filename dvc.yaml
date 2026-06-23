@@ -1,0 +1,49 @@
+stages:
+  generate:
+    cmd: python -m ecommerce_recommender.data.generate
+    deps:
+      - src/ecommerce_recommender/data/generate.py
+    params:
+      - seed
+      - data
+    outs:
+      - data/raw/interactions.csv
+      - data/raw/items.csv
+      - data/raw/users.csv
+
+  prepare:
+    cmd: python -m ecommerce_recommender.features.prepare
+    deps:
+      - data/raw/interactions.csv
+      - src/ecommerce_recommender/features/prepare.py
+    params:
+      - split
+      - seed
+    outs:
+      - data/processed/train.csv
+      - data/processed/validation.csv
+      - data/processed/test.csv
+      - data/artifacts/encoders.joblib
+
+  train:
+    cmd: python -m ecommerce_recommender.models.train
+    deps:
+      - data/processed/train.csv
+      - data/processed/validation.csv
+      - src/ecommerce_recommender/models/train.py
+    params:
+      - model
+      - seed
+    outs:
+      - data/artifacts/recommender.pt
+      - data/artifacts/baseline.joblib
+
+  evaluate:
+    cmd: python -m ecommerce_recommender.models.evaluate
+    deps:
+      - data/processed/test.csv
+      - data/artifacts/recommender.pt
+      - data/artifacts/baseline.joblib
+      - src/ecommerce_recommender/models/evaluate.py
+    metrics:
+      - data/artifacts/metrics.json
