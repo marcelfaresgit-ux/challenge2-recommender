@@ -107,19 +107,28 @@ prepara features, treina o modelo e cria metricas durante o build.
 4. Conecte o repositorio `challenge2-recommender`.
 5. Confirme o blueprint e aguarde o build.
 
-Depois do deploy, teste:
+Deploy publicado:
 
 ```text
-https://SEU-SERVICO.onrender.com/health
-https://SEU-SERVICO.onrender.com/docs
+https://challenge2-recommender.onrender.com
+```
+
+Endpoints:
+
+```text
+https://challenge2-recommender.onrender.com/health
+https://challenge2-recommender.onrender.com/docs
 ```
 
 Exemplo de chamada:
 
-```bash
-curl -X POST https://SEU-SERVICO.onrender.com/recommendations \
-  -H "Content-Type: application/json" \
-  -d '{"user_id":"u_00042","top_k":10}'
+```powershell
+Invoke-RestMethod `
+  -Uri "https://challenge2-recommender.onrender.com/recommendations" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"user_id":"u_00042","top_k":10}' |
+ConvertTo-Json -Depth 5
 ```
 
 ## Entregaveis do enunciado
