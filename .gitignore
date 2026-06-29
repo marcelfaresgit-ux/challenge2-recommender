@@ -11,5 +11,5 @@ data/artifacts/*
 !data/processed/.gitkeep
 !data/artifacts/.gitkeep
 mlruns/
-models/
+/models/
 .dvc/cache/
