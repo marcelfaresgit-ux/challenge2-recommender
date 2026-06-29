@@ -96,6 +96,32 @@ docker compose up --build
 - API: `http://localhost:8000/docs`
 - MLflow: `http://localhost:5000`
 
+## Deploy no Render
+
+O projeto inclui `render.yaml` e um `Dockerfile` pronto para deploy. O container gera dados,
+prepara features, treina o modelo e cria metricas durante o build.
+
+1. Suba o repositorio no GitHub.
+2. Acesse `https://dashboard.render.com/`.
+3. Clique em `New +` e escolha `Blueprint`.
+4. Conecte o repositorio `challenge2-recommender`.
+5. Confirme o blueprint e aguarde o build.
+
+Depois do deploy, teste:
+
+```text
+https://SEU-SERVICO.onrender.com/health
+https://SEU-SERVICO.onrender.com/docs
+```
+
+Exemplo de chamada:
+
+```bash
+curl -X POST https://SEU-SERVICO.onrender.com/recommendations \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"u_00042","top_k":10}'
+```
+
 ## Entregaveis do enunciado
 
 - Estrutura limpa com `src/`, `tests/`, `data/`, `docs/` e `scripts/`.

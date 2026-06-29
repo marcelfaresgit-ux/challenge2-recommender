@@ -17,5 +17,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 COPY --from=builder /usr/local /usr/local
 COPY . .
+RUN python -m ecommerce_recommender.data.generate \
+    && python -m ecommerce_recommender.features.prepare \
+    && python -m ecommerce_recommender.models.train \
+    && python -m ecommerce_recommender.models.evaluate
 EXPOSE 8000
-CMD ["uvicorn", "ecommerce_recommender.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn ecommerce_recommender.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

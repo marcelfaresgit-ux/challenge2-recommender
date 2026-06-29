@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: challenge2-recommender
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: APP_NAME
+        value: ecommerce-recommender
+      - key: MLFLOW_TRACKING_URI
+        value: file:./mlruns
+      - key: MLFLOW_EXPERIMENT_NAME
+        value: ecommerce-recommendation
+      - key: TOP_K
+        value: "10"
+      - key: RANDOM_SEED
+        value: "42"
