@@ -131,6 +131,53 @@ Invoke-RestMethod `
 ConvertTo-Json -Depth 5
 ```
 
+### Testando a API no PowerShell
+
+No PowerShell, recomenda-se usar `Invoke-RestMethod` para evitar problemas de escape no
+JSON com `curl`.
+
+Health check:
+
+```powershell
+Invoke-RestMethod -Uri "https://challenge2-recommender.onrender.com/health"
+```
+
+Recomendacao:
+
+```powershell
+$body = @{
+  user_id = "u_00042"
+  top_k = 10
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Uri "https://challenge2-recommender.onrender.com/recommendations" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body $body `
+  -TimeoutSec 180 |
+ConvertTo-Json -Depth 5
+```
+
+Exemplo de resposta:
+
+```json
+{
+  "user_id": "u_00042",
+  "recommendations": [
+    {
+      "item_id": "i_00315",
+      "category": "beleza",
+      "price": 22.47,
+      "score": 0.9228
+    }
+  ]
+}
+```
+
+Observacao: em ambiente gratuito do Render, a primeira requisicao pode demorar por causa
+do cold start do servico.
+
 ## Entregaveis do enunciado
 
 - Estrutura limpa com `src/`, `tests/`, `data/`, `docs/` e `scripts/`.
